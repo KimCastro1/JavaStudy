@@ -1,0 +1,64 @@
+package study;
+
+import java.util.Scanner;
+
+public class GraphicEditor {
+	Shape start,last,obj;
+	static int size=0;
+	
+	public void insert(int insertNum) { //생성메서드
+		if(insertNum==1) {
+			if(size==0){start=new Line();start.setNext(obj);last=start;}
+			else{obj=new Line();last.setNext(obj);last=obj;}
+			size++;
+		}else if(insertNum==2) {
+			if(size==0){start=new Rect();start.setNext(obj);last=start;}
+			else{obj=new Rect();last.setNext(obj);last=obj;}
+			size++;
+		}else if(insertNum==3) {
+			if(size==0){start=new Circle();start.setNext(obj);last=start;}
+			else{obj=new Circle();last.setNext(obj);last=obj;}
+			size++;
+		}
+	}
+	public void remove(int removeNum) {//삭제메서드
+		if(removeNum>size) {System.out.println("삭제할 수 없습니다.");}
+		else {if(removeNum==1) {start=start.getNext();}
+		else {Shape temp=start;
+			while(--removeNum==0) {temp=start.getNext();}
+			temp.setNext((temp.getNext().getNext()));}
+		size--;
+		}
+	}
+	public void allView() {
+		Shape p = start;
+		while(p!=null){
+			p.draw();
+			p=p.getNext();
+		}
+	}
+	public void quit() {
+		System.out.println("beauty을 종료합니다.");
+	}
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		GraphicEditor ge = new GraphicEditor();
+		System.out.println("그래픽 에디터  beauty를 시작합니다");
+		while (true) {
+			System.out.print("삽입(1), 삭제(2), 모두 보기(3), 종료(4) >>");
+			int menu=Integer.parseInt(sc.nextLine());
+			if(menu==1) {
+				System.out.print("Line(1), Rect(2), Circle(3) >>");
+				int insertNum=Integer.parseInt(sc.nextLine());
+				ge.insert(insertNum);
+			}else if(menu==2) {
+				System.out.print("삭제할 도형의 위치 >>");
+				int removeNum=Integer.parseInt(sc.nextLine());
+				ge.remove(removeNum);
+			}else if(menu==3) {ge.allView();
+			}else if(menu==4) {ge.quit();break;}
+		}
+		sc.close();
+	}
+}
